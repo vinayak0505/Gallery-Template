@@ -51,22 +51,16 @@ const App = () => {
         const titleSplited = ddTitle.toLowerCase().split(" ")[0]
         return item.toLowerCase().includes(titleSplited)
       })
-      return [ ...images.categories[categoryChoose] ]
+      return [...images.categories[categoryChoose]]
     })
   }
 
   return (
     <>
-        <Header />
-        <div className="flex justify-content-center" style={{ marginTop: "50px", padding: '50px' }}>
-          <ContainerCard>
-              <div className={`${styles["gallery-setting"]} flex justify-content-between align-items-center`}>
-                <h1>All images</h1>
-                <Dropdown title="All Images" items={ddItems} liftingDdTextUp={takeDdTitle} />
-              </div>
-              <MasonryLayout images={categoryImage} />
-          </ContainerCard>
-        </div>
+      <Header />
+      <div className="flex justify-content-center" style={{ padding: '50px' }}>
+        <MasonryLayout images={categoryImage} />
+      </div>
     </>
   )
 }
