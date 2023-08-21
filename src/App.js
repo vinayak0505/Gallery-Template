@@ -6,7 +6,6 @@ import styles from "./App.module.css"
 // import other components to use
 import Header from './Components/Header/Header';
 import MasonryLayout from './Components/MasonryLayout/MasonryLayout';
-import Dropdown from './Components/Elements/Dropdown/Dropdown';
 
 // import json files 
 import images from "./Jsons/Images.json"
