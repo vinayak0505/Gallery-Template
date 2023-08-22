@@ -3,31 +3,36 @@ import Button from "../Elements/Button/Button";
 import { doc, setDoc } from "firebase/firestore";
 import { useRef } from 'react';
 
-const AddItem = ({ page, items }) => {
+const AddItem = ({ page, items, setOpenDialog }) => {
     const nameRef = useRef("");
     const aboutRef = useRef("");
     const urlRef = useRef("");
     return <>
-        <div >
-            <span>Create an album</span>
+        <div className="box">
+            <h1 className={"nav-title"}>{page === "" ? <>Create an Album</> : <>Add an Image</>}</h1>
+            <div style={{ height: "50px" }}></div>
             <form>
-                <input type="text" ref={nameRef} placeholder="name" /> <br />
-                <input type="text" ref={aboutRef} placeholder="about" /> <br />
-                <input type="text" ref={urlRef} placeholder="url" /> <br />
-                <Button >Clear</Button>
+                <input className="input" placeholder="Image Name" type="text" ref={nameRef} required />  <br />
+                {page !== "" && <><input className="input" placeholder="About Image" type="text" ref={aboutRef} /> <br /> </>}
+                {page !== "" && <><input className="input" placeholder="Image Url" type="url" ref={urlRef} required /> <br /> </>}
+                <div style={{ height: "20px" }}></div>
+                <Button style={{ backgroundColor: "red", marginRight: 180 }} onClick={(e) => {
+                    e.preventDefault();
+                    setOpenDialog(() => false);
+                }}>Close</Button>
                 <Button onClick={(e) =>
-                    onCreate(e, page, items, nameRef, aboutRef, urlRef)
+                    onCreate(e, page, items, nameRef, aboutRef, urlRef, setOpenDialog)
                 }>Create</Button>
             </form>
-            {page}
         </div>
-    </>
+    </>;
 };
 
-const onCreate = async (e, page, items, nameRef, aboutRef, urlRef) => {
-    e.preventDefault();
-    const name = nameRef.current.value;
+const onCreate = async (e, page, items, nameRef, aboutRef, urlRef, setOpenDialog) => {
+    const name = nameRef.current.value.trim();
+    if (name === "") return;
     if (page === "") {
+        e.preventDefault();
         await setDoc(doc(db, "gallery", name), {
             images: [],
             about: {
@@ -35,13 +40,20 @@ const onCreate = async (e, page, items, nameRef, aboutRef, urlRef) => {
             }
         });
     } else {
+        const url = urlRef.current.value.trim();
+        if (isValidUrl(url) == false) return;
+        e.preventDefault();
         const about = aboutRef.current.value;
-        const url = urlRef.current.value;
+
         await setDoc(doc(db, "gallery", page), {
             images: [{ name, about, url }, ...items],
             about: { name: page, url }
         });
     }
+    setOpenDialog(() => false);
+    nameRef.current.value = "";
+    aboutRef.current.value = "";
+    urlRef.current.value = "";
 }
 
 export default AddItem;

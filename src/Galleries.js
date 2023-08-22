@@ -6,7 +6,6 @@ import { collection, onSnapshot } from "firebase/firestore";
 // import other components to use
 import Header from './Components/Header/Header';
 import MasonryLayout from './Components/MasonryLayout/MasonryLayout.js';
-import AddItem from "./Components/AddItemp/AddItem";
 
 
 const Galleries = ({ page, setPage }) => {
@@ -26,7 +25,7 @@ const Galleries = ({ page, setPage }) => {
 
     return (
         <>
-            <AddItem page={page} />
+            {/* <AddItem page={page} /> */}
             <Header page={page} setPage={setPage} />
             <div className="flex justify-content-center" style={{ padding: '50px' }}>
                 <MasonryLayout images={images} page={page} setPage={setPage} />

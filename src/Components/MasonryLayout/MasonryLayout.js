@@ -20,14 +20,14 @@ const MasonryLayout = ({ images, page, setPage }) => {
       columnClassName={"my-masonry-grid_column"}
     >
       {images.map(item => (
-        <buttom className={"button button-tranparent"} onClick={(e) => setThisPage(page, setPage, item.name)}>
+        <div className={"button button-tranparent"} onClick={(e) => setThisPage(page, setPage, item.name)}>
           <MasonryBox
             key={item.id}
             wallSrc={item.url}
             userName={item.name}
             userJob={item.about}
           />
-        </buttom>
+        </div>
       ))}
     </Masonry>
   )

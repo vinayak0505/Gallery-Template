@@ -1,20 +1,12 @@
-// import react package
-import PropTypes from 'prop-types'
-
 // Button component
-const Button = ({ children, onClick, className }) => (
+const Button = ({ children, onClick, className, style}) => (
     <button
         className={`button button-matrix ${className}`}
         onClick={onClick}
+        style={style}
     >
         {children}
     </button>
 )
 
-Button.propTypes = {
-    children: PropTypes.node.isRequired,
-    onClick: PropTypes.func,
-    className: PropTypes.string
-}
-
-export default Button
+export default Button;
