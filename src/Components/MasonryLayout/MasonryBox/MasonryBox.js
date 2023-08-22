@@ -1,15 +1,14 @@
 import { PropTypes } from 'prop-types';
 
 // MasonryBox component
-const MasonryBox = ({ wallSrc, userProf, userName, userJob }) => {
+const MasonryBox = ({ wallSrc, userName, userJob }) => {
   return (
     <div className={"my-masonry"}>
-      <img src={wallSrc} style={{ width: "100%" }} alt="" />
+      <img src={wallSrc !== undefined ? wallSrc :
+        "https://www.namepros.com/attachments/empty-png.89209/"
+      } style={{ width: "100%" }} alt="" />
       <div className={`my-masnry-description flex`}>
         <div className={`my-masnry-user-box flex align-items-center`}>
-          <div className={"my-masnry-user-prof"}>
-            <img src={userProf} alt="" />
-          </div>
           <div className={`my-masnry-user-prof-desc flex flex-column`}>
             <h1>{userName}</h1>
             <h3>{userJob}</h3>
@@ -18,14 +17,6 @@ const MasonryBox = ({ wallSrc, userProf, userName, userJob }) => {
       </div>
     </div>
   )
-}
-
-// validate MasonryBox component
-MasonryBox.propTypes = {
-  wallSrc: PropTypes.string.isRequired,
-  userProf: PropTypes.string.isRequired,
-  userName: PropTypes.string.isRequired,
-  userJob: PropTypes.string.isRequired,
 }
 
 export default MasonryBox

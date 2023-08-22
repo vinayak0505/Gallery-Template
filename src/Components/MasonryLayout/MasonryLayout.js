@@ -5,7 +5,7 @@ import Masonry from "react-masonry-css"
 import MasonryBox from './MasonryBox/MasonryBox';
 
 // MasonryLayout Component
-const MasonryLayout = ({ images }) => {
+const MasonryLayout = ({ images, page, setPage }) => {
   const breakpointColumnsObj = {
     default: 4,
     1100: 3,
@@ -20,16 +20,23 @@ const MasonryLayout = ({ images }) => {
       columnClassName={"my-masonry-grid_column"}
     >
       {images.map(item => (
-        <MasonryBox
-          key={item.id}
-          wallSrc={item.src}
-          userProf={item.user.src}
-          userName={item.user.name}
-          userJob={item.user.job}
-        />
+        <buttom className={"button button-tranparent"} onClick={(e) => setThisPage(page, setPage, item.name)}>
+          <MasonryBox
+            key={item.id}
+            wallSrc={item.url}
+            userName={item.name}
+            userJob={item.about}
+          />
+        </buttom>
       ))}
     </Masonry>
   )
+}
+
+const setThisPage = (page, setPage, value) => {
+  if (page === "") {
+    setPage(() => value);
+  }
 }
 
 export default MasonryLayout
