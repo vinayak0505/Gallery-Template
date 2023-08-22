@@ -1,11 +1,16 @@
-// MasonryBox component
+
+
 const MasonryBox = ({ wallSrc, userName, userJob }) => {
   return (
     <div className={"my-masonry"}>
-      <img src={wallSrc !== undefined ? wallSrc :
-        "https://www.namepros.com/attachments/empty-png.89209/"
-        
-      } style={{ width: "100%" }} alt="" />
+      <img src={wallSrc} style={{ width: "100%" }} alt=""
+        onError={(event) => {
+          console.log(event.currentTarget.src);
+          console.log(event.target.src);
+          event.currentTarget.src = '/img/empty.png';
+        }}
+        onLoad
+      />
       <div className={`my-masnry-description flex`}>
         <div className={`my-masnry-user-box flex align-items-center`}>
           <div className={`my-masnry-user-prof-desc flex flex-column`}>

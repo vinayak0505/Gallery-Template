@@ -29,31 +29,49 @@ const AddItem = ({ page, items, setOpenDialog }) => {
 };
 
 const onCreate = async (e, page, items, nameRef, aboutRef, urlRef, setOpenDialog) => {
-    const name = nameRef.current.value.trim();
-    if (name === "") return;
-    if (page === "") {
-        e.preventDefault();
-        await setDoc(doc(db, "gallery", name), {
-            images: [],
-            about: {
-                name,
-            }
-        });
-    } else {
-        const url = urlRef.current.value.trim();
-        if (isValidUrl(url) == false) return;
-        e.preventDefault();
-        const about = aboutRef.current.value;
+    try {
 
-        await setDoc(doc(db, "gallery", page), {
-            images: [{ name, about, url }, ...items],
-            about: { name: page, url }
-        });
+
+        const name = nameRef.current.value.trim();
+        if (name == "") return;
+        if (page === "") {
+            e.preventDefault();
+            setDoc(doc(db, "gallery", name), {
+                images: [],
+                about: {
+                    name,
+                }
+            });
+        } else {
+            const url = urlRef.current.value.trim();
+            if (_isValidHttpUrl(url) == false) return;
+            e.preventDefault();
+            const about = aboutRef.current.value;
+
+            setDoc(doc(db, "gallery", page), {
+                images: [{ name, about, url }, ...items],
+                about: { name: page, url }
+            });
+        }
+        setOpenDialog(() => false);
+        nameRef.current.value = "";
+        aboutRef.current.value = "";
+        urlRef.current.value = "";
+    } catch (error) {
+        e.preventDefault();
     }
-    setOpenDialog(() => false);
-    nameRef.current.value = "";
-    aboutRef.current.value = "";
-    urlRef.current.value = "";
+}
+
+const _isValidHttpUrl = (string) => {
+    let url;
+
+    try {
+        url = new URL(string);
+    } catch (_) {
+        return false;
+    }
+
+    return url.protocol === "http:" || url.protocol === "https:";
 }
 
 export default AddItem;

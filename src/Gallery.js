@@ -17,7 +17,7 @@ const Gallery = ({ page, setPage }) => {
             setImages(() => images);
         });
         return unsubscribe;
-    })
+    },[])
 
     return (
         <>
