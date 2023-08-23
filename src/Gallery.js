@@ -17,9 +17,11 @@ const Gallery = ({ page, setPage }) => {
     const aboutRef = useRef("");
     const urlRef = useRef("");
 
+    const [allImages, setAllImages] = useState([]);
     const [images, setImages] = useState([]);
     const [about, setAbout] = useState([]);
     const [index, setIndex] = useState(-1);
+    const [search, setSearch] = useState(false);
 
     const [showDialog, setShowDialog] = useState(false);
     const customSetShowDialog = (fun) => {
@@ -29,14 +31,22 @@ const Gallery = ({ page, setPage }) => {
 
     useEffect(() => {
         const unsubscribe = onSnapshot(doc(db, "gallery", page), (doc) => {
-            setImages(() => doc.data().images);
+            setAllImages(() => doc.data().images);
             setAbout(() => doc.data().about);
         });
         return unsubscribe;
     }, [])
 
+    useEffect(() => {
+        const tempImage = allImages.map((e, i) => ({ ...e, i }));
+        if (search)
+            setImages(tempImage.filter(image => image.name.includes(search) || image.about.includes(search)));
+        else
+            setImages(tempImage);
+    }, [allImages, search]);
+
     const deleteImage = (i) => {
-        var newImages = images;
+        var newImages = allImages;
         newImages.splice(i, 1);
         setDoc(doc(db, "gallery", page), {
             about: about,
@@ -56,7 +66,7 @@ const Gallery = ({ page, setPage }) => {
             const about = aboutRef.current.value;
             const newImage = { name, about, url };
             if (index !== -1) {
-                const newImages = [...images];
+                const newImages = allImages; /// asdkljasodj
                 newImages[index] = newImage;
                 setDoc(doc(db, "gallery", page), {
                     images: newImages,
@@ -96,14 +106,14 @@ const Gallery = ({ page, setPage }) => {
         setIndex(() => i);
         setShowDialog(() => true);
         await delay(0);
-        nameRef.current.value = images[i].name;
-        aboutRef.current.value = images[i].about;
-        urlRef.current.value = images[i].url;
+        nameRef.current.value = allImages[i].name;
+        aboutRef.current.value = allImages[i].about;
+        urlRef.current.value = allImages[i].url;
     }
 
     return (
         <>
-            <Header page={page} setPage={setPage} onAdd={onAdd} showDialog={showDialog} setShowDialog={customSetShowDialog} />
+            <Header page={page} setPage={setPage} onAdd={onAdd} showDialog={showDialog} setShowDialog={customSetShowDialog} setSearch={setSearch} />
             <div style={{ padding: '50px' }}>
                 <MasonryLayout deleteImage={deleteImage} images={images} page={page} setPage={setPage} editImage={editImage} />
             </div>

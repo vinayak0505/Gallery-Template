@@ -24,7 +24,7 @@ const MasonryLayout = ({ images, page, setPage, deleteImage, editImage }) => {
           <MasonryBox
             key={i}
             page={page}
-            index={i}
+            index={item.i ? item.i : i}
             deleteImage={deleteImage}
             wallSrc={item.url}
             userName={item.name}

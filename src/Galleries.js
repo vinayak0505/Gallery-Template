@@ -13,19 +13,27 @@ import AddItem from "./Components/AddItemp/AddItem";
 const Galleries = ({ setPage }) => {
     const nameRef = useRef("");
 
+    const [allImages, setAllImages] = useState([]);
     const [images, setImages] = useState([]);
     const [showDialog, setShowDialog] = useState(false);
+    const [search, setSearch] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onSnapshot(collection(db, "gallery"), (snapshot) => {
             const gallery = snapshot.docs.map((doc) => (
                 doc.data().about
             ));
-            console.log(gallery);
-            setImages(() => gallery)
+            setAllImages(() => gallery)
         });
         return unsubscribe;
     }, [])
+
+    useEffect(() => {
+        if (search)
+            setImages(allImages.filter(image => image.name.includes(search)));
+        else
+            setImages(allImages);
+    }, [allImages, search]);
 
 
     const onAdd = async (e) => {
@@ -46,8 +54,8 @@ const Galleries = ({ setPage }) => {
 
     return (
         <>
-            <Header setPage={setPage} setShowDialog={setShowDialog} />
-            <div className="flex justify-content-center" style={{ padding: '50px' }}>
+            <Header setPage={setPage} setShowDialog={setShowDialog} setSearch={setSearch} />
+            <div style={{ padding: '50px' }}>
                 <MasonryLayout images={images} setPage={setPage} />
             </div>
             <Dialog open={showDialog}>
