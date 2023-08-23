@@ -180,10 +180,11 @@ body {
     margin-bottom: 15px;
 }
 
-.delete-container{
+.delete-container {
     overflow: visible;
     position: relative;
 }
+
 .delete-button {
     z-index: 2;
     position: absolute;
@@ -207,7 +208,18 @@ body {
     right: 24px;
 }
 
-.pointer{
+.download-button {
+    z-index: 2;
+    position: absolute;
+    color: white;
+    top: -10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    right: 60px;
+}
+
+.pointer {
     cursor: pointer;
 }
 
@@ -232,7 +244,7 @@ body {
     color: var(--white-100);
 }
 
-.back-button{
+.back-button {
     width: 40px;
     height: 40px;
 }
@@ -270,7 +282,7 @@ body {
 }
 
 @media only screen and (max-width: 800px) {
-    .search-bar{
+    .search-bar {
         visibility: collapse;
     }
-  }
+}

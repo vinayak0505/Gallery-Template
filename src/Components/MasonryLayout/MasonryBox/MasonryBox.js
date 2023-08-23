@@ -1,12 +1,13 @@
-
+import { saveAs } from 'file-saver'
 
 const MasonryBox = ({ page, wallSrc, userName, userJob, index, deleteImage, editImage }) => {
   if (!wallSrc) wallSrc = "/img/empty.png";
 
   return (
     <div className="delete-container">
-      {page && <button onClick={() => deleteImage(index)} className="delete-button" style={{ cursor: "pointer" }}>X</button>}
-      {page && <img onClick={() => editImage(index)} src='/img/pen.png' className="edit-button" style={{ cursor: "pointer" }}></img>}
+      {page && <button onClick={() => deleteImage(index)} className="delete-button pointer">X</button>}
+      {page && <img onClick={() => editImage(index)} src='/img/pen.png' className="edit-button pointer"></img>}
+      {page && <img onClick={() => saveAs(wallSrc)} src='/img/download.png' className="download-button pointer"></img>}
       <div className={"my-masonry"}>
         <img src={wallSrc} style={{ width: "100%" }} alt=""
           onError={(event) => {
