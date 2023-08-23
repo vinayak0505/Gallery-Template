@@ -49,11 +49,13 @@ body {
 .nav-title {
     font-size: 1.8rem;
     color: var(--green-400);
+    margin-right: auto;
 }
 
 .nav {
     padding: 40px 40px 0 40px;
     z-index: 2;
+    column-gap: 20px;
 }
 
 .navbar-buttons {
@@ -266,3 +268,9 @@ body {
 .input:active {
     box-shadow: 2px 2px 15px var(--green-400) inset;
 }
+
+@media only screen and (max-width: 800px) {
+    .search-bar{
+        visibility: collapse;
+    }
+  }
