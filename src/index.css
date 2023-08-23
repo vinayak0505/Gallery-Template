@@ -105,12 +105,11 @@ body {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    margin-left: -30px;
     width: auto;
 }
 
-.my-masonry-grid_column {
-    padding-left: 30px;
+.my-masonry-grid-column {
+    background-clip: padding-box;
 }
 
 .my-masonry {
@@ -177,6 +176,33 @@ body {
 
 .my-masonry:hover .my-masnry-user-box {
     margin-bottom: 15px;
+}
+
+.delete-container{
+    overflow: visible;
+    position: relative;
+}
+.delete-button {
+    z-index: 2;
+    position: absolute;
+    background: red;
+    color: white;
+    top: -10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    right: -10px;
+}
+
+.edit-button {
+    z-index: 2;
+    position: absolute;
+    color: white;
+    top: -10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    right: 24px;
 }
 
 /* button */

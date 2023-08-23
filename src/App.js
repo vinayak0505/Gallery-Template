@@ -10,7 +10,7 @@ const App = () => {
     <>
       {
         (page === "") ?
-          <Galleries page={page} setPage={setPage} /> :
+          <Galleries setPage={setPage} /> :
           <Gallery page={page} setPage={setPage} />
       }
     </>);

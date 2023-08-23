@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
 
 import { db } from "./firebaseInit";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot,setDoc,doc } from "firebase/firestore";
 
 // import other components to use
 import Header from './Components/Header/Header';
 import MasonryLayout from './Components/MasonryLayout/MasonryLayout.js';
 
 
-const Galleries = ({ page, setPage }) => {
+const Galleries = ({ setPage }) => {
 
     const [images, setImages] = useState([]);
+    const [openDialog, setOpenDialog] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onSnapshot(collection(db, "gallery"), (snapshot) => {
@@ -21,14 +22,30 @@ const Galleries = ({ page, setPage }) => {
             setImages(() => gallery)
         });
         return unsubscribe;
-    },[])
+    }, [])
+
+
+    const onAdd = async (e, nameRef) => {
+
+        try {
+            const name = nameRef.current.value.trim();
+            if (name == "") return;
+            e.preventDefault();
+            setDoc(doc(db, "gallery", name), {
+                images: [],
+                about: { name }
+            });
+            setOpenDialog(() => false);
+            nameRef.current.value = "";
+        } catch (error) {
+        }
+    }
 
     return (
         <>
-            {/* <AddItem page={page} /> */}
-            <Header page={page} setPage={setPage} />
+            <Header setPage={setPage} onAdd={onAdd} openDialog={openDialog} setOpenDialog={setOpenDialog} />
             <div className="flex justify-content-center" style={{ padding: '50px' }}>
-                <MasonryLayout images={images} page={page} setPage={setPage} />
+                <MasonryLayout images={images} setPage={setPage} />
             </div>
         </>
     )

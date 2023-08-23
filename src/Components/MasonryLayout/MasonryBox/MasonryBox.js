@@ -1,21 +1,24 @@
 
 
-const MasonryBox = ({ wallSrc, userName, userJob }) => {
+const MasonryBox = ({ page, wallSrc, userName, userJob, index, deleteImage, editImage }) => {
+  if (!wallSrc) wallSrc = "/img/empty.png";
+
   return (
-    <div className={"my-masonry"}>
-      <img src={wallSrc} style={{ width: "100%" }} alt=""
-        onError={(event) => {
-          console.log(event.currentTarget.src);
-          console.log(event.target.src);
-          event.currentTarget.src = '/img/empty.png';
-        }}
-        onLoad
-      />
-      <div className={`my-masnry-description flex`}>
-        <div className={`my-masnry-user-box flex align-items-center`}>
-          <div className={`my-masnry-user-prof-desc flex flex-column`}>
-            <h1>{userName}</h1>
-            <h3>{userJob}</h3>
+    <div className="delete-container">
+      {page && <button onClick={() => deleteImage(index)} className="delete-button" style={{ cursor: "pointer" }}>X</button>}
+      {page && <img onClick={() => editImage(index)} src='/img/pen.png' className="edit-button" style={{ cursor: "pointer" }}></img>}
+      <div className={"my-masonry"}>
+        <img src={wallSrc} style={{ width: "100%" }} alt=""
+          onError={(event) => {
+            event.currentTarget.src = '/img/empty.png';
+          }}
+        />
+        <div className={`my-masnry-description flex`}>
+          <div className={`my-masnry-user-box flex align-items-center`}>
+            <div className={`my-masnry-user-prof-desc flex flex-column`}>
+              <h1>{userName}</h1>
+              <h3>{userJob}</h3>
+            </div>
           </div>
         </div>
       </div>
