@@ -30,7 +30,7 @@ const Galleries = ({ setPage }) => {
 
     useEffect(() => {
         if (search)
-            setImages(allImages.filter(image => image.name.includes(search)));
+            setImages(allImages.filter(image => image.name.toLowerCase().includes(search)));
         else
             setImages(allImages);
     }, [allImages, search]);

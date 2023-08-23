@@ -40,7 +40,7 @@ const Gallery = ({ page, setPage }) => {
     useEffect(() => {
         const tempImage = allImages.map((e, i) => ({ ...e, i }));
         if (search)
-            setImages(tempImage.filter(image => image.name.includes(search) || image.about.includes(search)));
+            setImages(tempImage.filter(image => image.name.toLowerCase().includes(search) || image.about.toLowerCase().includes(search)));
         else
             setImages(tempImage);
     }, [allImages, search]);
