@@ -1,5 +1,6 @@
 import Button from "../Elements/Button/Button";
 
+// ADD Item will show popup and display links item that can be added 
 const AddItem = ({ page, setShowDialog, onAdd, nameRef, aboutRef, urlRef }) => {
 
     return <>
@@ -11,11 +12,10 @@ const AddItem = ({ page, setShowDialog, onAdd, nameRef, aboutRef, urlRef }) => {
                 {page && <><input className="input" placeholder="About Image" type="text" ref={aboutRef} /> <br /> </>}
                 {page && <><input className="input" placeholder="Image Url" type="url" ref={urlRef} required /> <br /> </>}
                 <div style={{ height: "20px" }}></div>
-                <Button style={{ backgroundColor: "red", marginRight: 180 }} onClick={(e) => {
-                    e.preventDefault();
+                <Button type="button" style={{ backgroundColor: "red", marginRight: 180 }} onClick={() => {
                     setShowDialog(() => false);
                 }}>Close</Button>
-                <Button onClick={(e) => onAdd(e)}>Create</Button>
+                <Button type="submit" onClick={(e) => onAdd(e)}>Create</Button>
             </form>
         </div>
     </>;

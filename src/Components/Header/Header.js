@@ -3,6 +3,8 @@ import Button from "../Elements/Button/Button";
 import { SearchNormal1 } from "iconsax-react";
 
 // Header component
+// Header is the nav displayed on the top 
+// this will allow us to search and show text and display add button
 const Header = ({ page, setPage, setShowDialog, setSearch }) => {
 
   const placeholder = !page ? "Search Gallery" : "Search Image";

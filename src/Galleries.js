@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
 import { db } from "./firebaseInit";
-import { collection, onSnapshot, setDoc, doc } from "firebase/firestore";
+import { collection, onSnapshot, doc, addDoc } from "firebase/firestore";
 
 // import other components to use
 import Header from './Components/Header/Header';
@@ -13,11 +13,16 @@ import AddItem from "./Components/AddItemp/AddItem";
 const Galleries = ({ setPage }) => {
     const nameRef = useRef("");
 
+    // all images from firebase
     const [allImages, setAllImages] = useState([]);
+    // current images that need to be displayed
     const [images, setImages] = useState([]);
+    // showDialog base if the showDialog id true
     const [showDialog, setShowDialog] = useState(false);
+    // seach text
     const [search, setSearch] = useState(false);
 
+    // fetch collections
     useEffect(() => {
         const unsubscribe = onSnapshot(collection(db, "gallery"), (snapshot) => {
             const gallery = snapshot.docs.map((doc) => (
@@ -28,6 +33,7 @@ const Galleries = ({ setPage }) => {
         return unsubscribe;
     }, [])
 
+    // update collection base on search
     useEffect(() => {
         if (search)
             setImages(allImages.filter(image => image.name.toLowerCase().includes(search)));
@@ -35,14 +41,20 @@ const Galleries = ({ setPage }) => {
             setImages(allImages);
     }, [allImages, search]);
 
-
+    // add collection
     const onAdd = async (e) => {
-
         try {
             const name = nameRef.current.value.trim();
-            if (name == "") return;
-            e.preventDefault();
-            setDoc(doc(db, "gallery", name), {
+            // check for valid name
+            if (name == ""){
+                alert("Enter Name");
+            }
+            // check if name alreadt exist
+            if (allImages.filter(e => e.name === name).length > 0) {
+                alert("Gallery Already Exist");
+            }
+            // add document with defined name
+            addDoc(doc(db, "gallery", name), {
                 images: [],
                 about: { name }
             });
@@ -52,6 +64,7 @@ const Galleries = ({ setPage }) => {
         }
     }
 
+    // ui ellement
     return (
         <>
             <Header setPage={setPage} setShowDialog={setShowDialog} setSearch={setSearch} />

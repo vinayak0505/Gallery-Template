@@ -1,11 +1,13 @@
 import { saveAs } from 'file-saver'
 
+// masonarybox is the libarary that allow us to display images
+// in staggerd fashion
 const MasonryBox = ({ page, wallSrc, userName, userJob, index, deleteImage, editImage }) => {
   if (!wallSrc) wallSrc = "/img/empty.png";
 
   return (
     <div className="delete-container">
-      {page && <button onClick={() => deleteImage(index)} className="delete-button pointer">X</button>}
+      {page && <button onClick={(e) => deleteImage(e,index)} className="delete-button pointer">X</button>}
       {page && <img onClick={() => editImage(index)} src='/img/pen.png' className="edit-button pointer"></img>}
       {page && <img onClick={() => saveAs(wallSrc)} src='/img/download.png' className="download-button pointer"></img>}
       <div className={"my-masonry"}>

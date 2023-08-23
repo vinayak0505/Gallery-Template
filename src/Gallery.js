@@ -17,10 +17,16 @@ const Gallery = ({ page, setPage }) => {
     const aboutRef = useRef("");
     const urlRef = useRef("");
 
+    // stated that will be change base on
+    // all imaged
     const [allImages, setAllImages] = useState([]);
+    // curent images that to be displayed
     const [images, setImages] = useState([]);
+    // info of selected gallery
     const [about, setAbout] = useState([]);
+    // update index
     const [index, setIndex] = useState(-1);
+    // seach value
     const [search, setSearch] = useState(false);
 
     const [showDialog, setShowDialog] = useState(false);
@@ -29,6 +35,7 @@ const Gallery = ({ page, setPage }) => {
         setIndex(() => -1);
     }
 
+    // fetch images
     useEffect(() => {
         const unsubscribe = onSnapshot(doc(db, "gallery", page), (doc) => {
             setAllImages(() => doc.data().images);
@@ -37,6 +44,7 @@ const Gallery = ({ page, setPage }) => {
         return unsubscribe;
     }, [])
 
+    // change image on search result
     useEffect(() => {
         const tempImage = allImages.map((e, i) => ({ ...e, i }));
         if (search)
@@ -45,7 +53,9 @@ const Gallery = ({ page, setPage }) => {
             setImages(tempImage);
     }, [allImages, search]);
 
-    const deleteImage = (i) => {
+    // remove images
+    const deleteImage = (e,i) => {
+        e.preventDefault();
         var newImages = allImages;
         newImages.splice(i, 1);
         setDoc(doc(db, "gallery", page), {
@@ -54,14 +64,19 @@ const Gallery = ({ page, setPage }) => {
         });
     }
 
-
+    // add image
     const onAdd = async (e) => {
         try {
             const name = nameRef.current.value.trim();
-            if (name == "") return;
+            if (name == "") {
+                alert("Enter a valid Name");
+                return;
+            }
             const url = urlRef.current.value.trim();
-            if (_isValidHttpUrl(url) == false) return;
-            e.preventDefault();
+            if (_isValidHttpUrl(url) == false){
+                alert("Enter a valid url");
+                return;
+            }
 
             const about = aboutRef.current.value;
             const newImage = { name, about, url };
@@ -83,13 +98,13 @@ const Gallery = ({ page, setPage }) => {
             aboutRef.current.value = "";
             urlRef.current.value = "";
         } catch (error) {
-            e.preventDefault();
             console.log(error);
         }
         setShowDialog(() => false);
         setIndex(() => -1);
     }
 
+    // validated if the url is valid http or not
     const _isValidHttpUrl = (string) => {
         let url;
 
@@ -102,6 +117,7 @@ const Gallery = ({ page, setPage }) => {
         return url.protocol === "http:" || url.protocol === "https:";
     }
 
+    // edit image
     const editImage = async (i) => {
         setIndex(() => i);
         setShowDialog(() => true);
@@ -111,6 +127,7 @@ const Gallery = ({ page, setPage }) => {
         urlRef.current.value = allImages[i].url;
     }
 
+    // ui element
     return (
         <>
             <Header page={page} setPage={setPage} onAdd={onAdd} showDialog={showDialog} setShowDialog={customSetShowDialog} setSearch={setSearch} />

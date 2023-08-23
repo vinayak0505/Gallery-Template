@@ -1,8 +1,14 @@
 // Button component
-const Button = ({ children, onClick, className, style}) => (
+const Button = ({ children, type, onClick, className, style }) => (
     <button
         className={`button button-matrix ${className}`}
-        onClick={onClick}
+        type={type}
+        onClick={
+            (e) => {
+                onClick(e);
+                e.preventDefault();
+            }
+        }
         style={style}
     >
         {children}
