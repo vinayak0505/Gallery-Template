@@ -1,11 +1,6 @@
 import Button from "../Elements/Button/Button";
-import { useRef } from 'react';
 
-const AddItem = ({ page, setOpenDialog, onAdd }) => {
-
-    const nameRef = useRef("");
-    const aboutRef = useRef("");
-    const urlRef = useRef("");
+const AddItem = ({ page, setShowDialog, onAdd, nameRef, aboutRef, urlRef }) => {
 
     return <>
         <div className="box">
@@ -18,11 +13,9 @@ const AddItem = ({ page, setOpenDialog, onAdd }) => {
                 <div style={{ height: "20px" }}></div>
                 <Button style={{ backgroundColor: "red", marginRight: 180 }} onClick={(e) => {
                     e.preventDefault();
-                    setOpenDialog(() => false);
+                    setShowDialog(() => false);
                 }}>Close</Button>
-                <Button onClick={(e) => onAdd(e, nameRef, aboutRef, urlRef)}>
-                    Create
-                </Button>
+                <Button onClick={(e) => onAdd(e)}>Create</Button>
             </form>
         </div>
     </>;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Galleries from "./Galleries";
 import Gallery from "./Gallery";
 

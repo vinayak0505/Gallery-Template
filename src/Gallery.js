@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import { db } from "./firebaseInit";
 import { doc, onSnapshot, setDoc } from "firebase/firestore";
@@ -6,12 +6,26 @@ import { doc, onSnapshot, setDoc } from "firebase/firestore";
 // import other components to use
 import Header from './Components/Header/Header';
 import MasonryLayout from './Components/MasonryLayout/MasonryLayout.js';
+import { Dialog } from "@material-ui/core";
+import AddItem from "./Components/AddItemp/AddItem";
+
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
 const Gallery = ({ page, setPage }) => {
+
+    const nameRef = useRef("");
+    const aboutRef = useRef("");
+    const urlRef = useRef("");
+
     const [images, setImages] = useState([]);
     const [about, setAbout] = useState([]);
     const [index, setIndex] = useState(-1);
-    const [openDialog, setOpenDialog] = useState(false);
+
+    const [showDialog, setShowDialog] = useState(false);
+    const customSetShowDialog = (fun) => {
+        setShowDialog(() => fun());
+        setIndex(() => -1);
+    }
 
     useEffect(() => {
         const unsubscribe = onSnapshot(doc(db, "gallery", page), (doc) => {
@@ -31,27 +45,39 @@ const Gallery = ({ page, setPage }) => {
     }
 
 
-    const onAdd = async (e, nameRef, aboutRef, urlRef) => {
+    const onAdd = async (e) => {
         try {
             const name = nameRef.current.value.trim();
             if (name == "") return;
             const url = urlRef.current.value.trim();
             if (_isValidHttpUrl(url) == false) return;
-
             e.preventDefault();
-            const about = aboutRef.current.value;
 
-            setDoc(doc(db, "gallery", page), {
-                images: [{ name, about, url }, ...images],
-                about: { name: page, url }
-            });
-            setOpenDialog(() => false);
+            const about = aboutRef.current.value;
+            const newImage = { name, about, url };
+            if (index !== -1) {
+                const newImages = [...images];
+                newImages[index] = newImage;
+                setDoc(doc(db, "gallery", page), {
+                    images: newImages,
+                    about: { name: page, url }
+                });
+            } else {
+                setDoc(doc(db, "gallery", page), {
+                    images: [newImage, ...images],
+                    about: { name: page, url }
+                });
+            }
+
             nameRef.current.value = "";
             aboutRef.current.value = "";
             urlRef.current.value = "";
         } catch (error) {
             e.preventDefault();
+            console.log(error);
         }
+        setShowDialog(() => false);
+        setIndex(() => -1);
     }
 
     const _isValidHttpUrl = (string) => {
@@ -66,16 +92,24 @@ const Gallery = ({ page, setPage }) => {
         return url.protocol === "http:" || url.protocol === "https:";
     }
 
-    const editImage = (i) => {
+    const editImage = async (i) => {
         setIndex(() => i);
+        setShowDialog(() => true);
+        await delay(0);
+        nameRef.current.value = images[i].name;
+        aboutRef.current.value = images[i].about;
+        urlRef.current.value = images[i].url;
     }
 
     return (
         <>
-            <Header page={page} setPage={setPage} onAdd={onAdd} openDialog={openDialog} setOpenDialog={setOpenDialog} />
+            <Header page={page} setPage={setPage} onAdd={onAdd} showDialog={showDialog} setShowDialog={customSetShowDialog} />
             <div style={{ padding: '50px' }}>
                 <MasonryLayout deleteImage={deleteImage} images={images} page={page} setPage={setPage} editImage={editImage} />
             </div>
+            <Dialog open={showDialog}>
+                <AddItem page={page} setShowDialog={setShowDialog} onAdd={onAdd} nameRef={nameRef} aboutRef={aboutRef} urlRef={urlRef} />
+            </Dialog>
         </>
     )
 }

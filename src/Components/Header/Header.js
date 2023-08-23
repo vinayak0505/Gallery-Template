@@ -1,11 +1,9 @@
 // import other components
 import Button from "../Elements/Button/Button";
 import { SearchNormal1 } from "iconsax-react";
-import Dialog from "@material-ui/core/Dialog";
-import AddItem from "../AddItemp/AddItem";
 
 // Header component
-const Header = ({ page, setPage, onAdd, openDialog, setOpenDialog }) => {
+const Header = ({ page, setPage, setShowDialog }) => {
 
   const placeholder = !page ? "Search Gallery" : "Search Image";
 
@@ -15,7 +13,9 @@ const Header = ({ page, setPage, onAdd, openDialog, setOpenDialog }) => {
       <nav className={`nav flex align-items-center`}>
         {
           page &&
-          <Button style={{ marginRight: "20px" }} onClick={() => setPage(() => "")}>back</Button>
+          <div className="pointer"  style={{ marginRight: "20px" }} onClick={() => setPage(() => "")}>
+            <img className="back-button" src="/img/previous.png"></img>
+          </div>
         }
         <h1 className={"nav-title"}>{!page ? <>Gallery</> : page}</h1>
         <div className={`flex navbar-buttons`}>
@@ -23,10 +23,7 @@ const Header = ({ page, setPage, onAdd, openDialog, setOpenDialog }) => {
             <SearchNormal1 size="30" color="var(--white-100)" />
             <input type="text" className={"search-input"} placeholder={placeholder} />
           </div>
-          <Button onClick={() => setOpenDialog(() => true)}>{!page ? <> + Add Folder</> : <> + Add Image</>}</Button>
-          <Dialog open={openDialog}>
-            <AddItem page={page} setOpenDialog={setOpenDialog} onAdd={onAdd} />
-          </Dialog>
+          <Button onClick={() => setShowDialog(() => true)}>{!page ? <> + Add Folder</> : <> + Add Image</>}</Button>
         </div>
       </nav>
     </>

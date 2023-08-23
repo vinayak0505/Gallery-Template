@@ -1,17 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import { db } from "./firebaseInit";
-import { collection, onSnapshot,setDoc,doc } from "firebase/firestore";
+import { collection, onSnapshot, setDoc, doc } from "firebase/firestore";
 
 // import other components to use
 import Header from './Components/Header/Header';
 import MasonryLayout from './Components/MasonryLayout/MasonryLayout.js';
+import { Dialog } from "@material-ui/core";
+import AddItem from "./Components/AddItemp/AddItem";
 
 
 const Galleries = ({ setPage }) => {
+    const nameRef = useRef("");
 
     const [images, setImages] = useState([]);
-    const [openDialog, setOpenDialog] = useState(false);
+    const [showDialog, setShowDialog] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onSnapshot(collection(db, "gallery"), (snapshot) => {
@@ -25,7 +28,7 @@ const Galleries = ({ setPage }) => {
     }, [])
 
 
-    const onAdd = async (e, nameRef) => {
+    const onAdd = async (e) => {
 
         try {
             const name = nameRef.current.value.trim();
@@ -35,7 +38,7 @@ const Galleries = ({ setPage }) => {
                 images: [],
                 about: { name }
             });
-            setOpenDialog(() => false);
+            setShowDialog(() => false);
             nameRef.current.value = "";
         } catch (error) {
         }
@@ -43,10 +46,13 @@ const Galleries = ({ setPage }) => {
 
     return (
         <>
-            <Header setPage={setPage} onAdd={onAdd} openDialog={openDialog} setOpenDialog={setOpenDialog} />
+            <Header setPage={setPage} setShowDialog={setShowDialog} />
             <div className="flex justify-content-center" style={{ padding: '50px' }}>
                 <MasonryLayout images={images} setPage={setPage} />
             </div>
+            <Dialog open={showDialog}>
+                <AddItem setShowDialog={setShowDialog} onAdd={onAdd} nameRef={nameRef} />
+            </Dialog>
         </>
     )
 }
