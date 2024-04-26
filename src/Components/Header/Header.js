@@ -16,7 +16,7 @@ const Header = ({ page, setPage, setShowDialog, setSearch }) => {
         {
           page &&
           <div className="pointer" onClick={() => setPage(() => "")}>
-            <img className="back-button" src="/img/previous.png"></img>
+            <img className="back-button" src="./img/previous.png"></img>
           </div>
         }
         <h1 className={"nav-title"}>{!page ? <>Gallery</> : page}</h1>
