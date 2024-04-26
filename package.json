@@ -4,17 +4,16 @@
   "private": true,
   "homepage": "https://vinayak0505.github.io/Gallery-Template/",
   "dependencies": {
-    "@material-ui/core": "^4.12.4",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^12.1.4",
-    "@testing-library/user-event": "^13.5.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.15",
     "file-saver": "^2.0.5",
-    "firebase": "^10.2.0",
+    "firebase": "^10.11.1",
     "iconsax-react": "^0.0.8",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-masonry-css": "^1.0.16",
-    "react-scripts": "5.0.0"
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

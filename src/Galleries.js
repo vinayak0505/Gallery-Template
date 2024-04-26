@@ -6,7 +6,7 @@ import { collection, onSnapshot, doc, addDoc } from "firebase/firestore";
 // import other components to use
 import Header from './Components/Header/Header';
 import MasonryLayout from './Components/MasonryLayout/MasonryLayout.js';
-import { Dialog } from "@material-ui/core";
+import { Dialog } from '@mui/material';
 import AddItem from "./Components/AddItemp/AddItem";
 
 
@@ -46,7 +46,7 @@ const Galleries = ({ setPage }) => {
         try {
             const name = nameRef.current.value.trim();
             // check for valid name
-            if (name == ""){
+            if (name == "") {
                 alert("Enter Name");
             }
             // check if name alreadt exist

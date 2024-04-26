@@ -6,7 +6,7 @@ import { doc, onSnapshot, setDoc } from "firebase/firestore";
 // import other components to use
 import Header from './Components/Header/Header';
 import MasonryLayout from './Components/MasonryLayout/MasonryLayout.js';
-import { Dialog } from "@material-ui/core";
+import { Dialog } from '@mui/material';
 import AddItem from "./Components/AddItemp/AddItem";
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
